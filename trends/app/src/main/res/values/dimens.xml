@@ -1,0 +1,25 @@
+<resources>
+    <dimen name="spacing_xlarge">24dp</dimen>
+    <dimen name="spacing_large">16dp</dimen>
+    <dimen name="spacing_medium">8dp</dimen>
+    <dimen name="spacing_small">4dp</dimen>
+    <dimen name="spacing_xsmall">2dp</dimen>
+
+    <dimen name="text_size_xlarge">26sp</dimen>
+    <dimen name="text_size_large">22sp</dimen>
+    <dimen name="text_size_medium">18sp</dimen>
+    <dimen name="text_size_small">16sp</dimen>
+    <dimen name="text_size_xsmall">14sp</dimen>
+    <dimen name="text_size_xxsmall">12sp</dimen>
+
+    <dimen name="pager_tab_height">48dp</dimen>
+    <dimen name="line_width">2dp</dimen>
+
+    <dimen name="tag_col_width">16dp</dimen>
+    <dimen name="time_col_width">48dp</dimen>
+    <dimen name="timer_col_width">72dp</dimen>
+    <dimen name="icon_col_medium_size">32dp</dimen>
+    <dimen name="icon_col_small_size">24dp</dimen>
+    <dimen name="color_col_width">32dp</dimen>
+    <dimen name="color_col_height">16dp</dimen>
+</resources>

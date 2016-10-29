@@ -1,20 +1,31 @@
 package com.linkx.trends.game.activities;
 
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.linkx.trends.R;
 import com.linkx.trends.game.Consts;
 import com.linkx.trends.game.view.adapters.PagerAdapter;
+import com.linkx.trends.game.view.components.DrawerHeaderView;
 
 public class MainActivity extends BaseActivity {
 
-
+    @Bind(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
+    @Bind(R.id.navigation_view)
+    NavigationView navigationView;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+    @Bind(R.id.toolbar_title)
+    TextView toolbarTitle;
     @Bind(R.id.tab_layout)
     TabLayout tabLayout;
     @Bind(R.id.pager)
@@ -26,7 +37,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-//        setupActionBar();
+        setupActionBar();
         setupViews();
     }
 
@@ -36,15 +47,41 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setupActionBar() {
+        toolbarTitle.setText("大家都在玩");
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        /*
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
+                this,
+                drawerLayout,
+                toolbar,
+                R.string.drawer_open,
+                R.string.drawer_close);
+        drawerLayout.setDrawerListener(drawerToggle);
+        drawerToggle.setDrawerIndicatorEnabled(true);
+        drawerToggle.syncState();
+        */
 
     }
 
     private void setupViews() {
+
+        /*
+        navigationView.addHeaderView(new DrawerHeaderView(this));
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                // TODO
+                menuItem.setChecked(true);
+                drawerLayout.closeDrawers();
+                return false;
+            }
+        });
+        */
 
         for (Consts.Tab tab : Consts.tabs) {
             tabLayout.addTab(tabLayout.newTab().setText(tab.name));

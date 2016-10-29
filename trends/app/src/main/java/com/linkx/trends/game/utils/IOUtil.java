@@ -84,7 +84,9 @@ public class IOUtil {
         String content = IOUtil.readFromNetwork(url);
         if (!Strings.isNullOrEmpty(content)) {
             try {
-                Files.write(content, new File(fileName), Charsets.UTF_8);
+                File file = new File(fileName);
+                Files.createParentDirs(file);
+                Files.write(content, file, Charsets.UTF_8);
             } catch (IOException e) {
                 Log.w("Trends", e);
             }

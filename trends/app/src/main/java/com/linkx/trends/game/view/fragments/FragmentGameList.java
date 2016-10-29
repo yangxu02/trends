@@ -1,6 +1,8 @@
 package com.linkx.trends.game.view.fragments;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.HandlerThread;
 import android.os.Looper;
@@ -13,12 +15,17 @@ import android.view.ViewGroup;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.linkx.trends.R;
+import com.linkx.trends.game.activities.DetailActivity;
 import com.linkx.trends.game.data.models.GameDetail;
 import com.linkx.trends.game.data.models.GameDetailList;
 import com.linkx.trends.game.data.models.Orientation;
 import com.linkx.trends.game.data.services.GameListQueryService;
+import com.linkx.trends.game.view.Transition;
 import com.linkx.trends.game.view.components.ViewGameDetail;
 import com.linkx.trends.game.view.components.ViewGameDetailVertical;
+import com.linkx.trends.game.view.components.ViewGameSnapshot;
+import com.linkx.trends.game.view.components.ViewTriangleShape;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,14 +85,27 @@ public class FragmentGameList extends Fragment {
         GameListQueryService service = new GameListQueryService();
         gameList.removeAllViews();
         service.queryAndDisplay(type, GameDetailList.class, backgroundLooper,
-            gameList, gameDetailList -> {
-                List<View> viewList = new ArrayList<View>();
-            for (GameDetail gameDetail : gameDetailList.details()) {
-                ViewGameDetail v = Orientation.landscape.equals(gameDetail.clip_orientation()) ? new ViewGameDetail(context) : new ViewGameDetailVertical(context);
-                viewList.add(v.setGameDetail(gameDetail));
-            }
-                return viewList;
-        });
+                gameList, gameDetailList -> {
+                    List<View> viewList = new ArrayList<View>();
+                    int i = 0;
+                    for (GameDetail gameDetail : gameDetailList.details()) {
+//                ViewGameDetail v = Orientation.landscape.equals(gameDetail.clip_orientation()) ? new ViewGameDetail(context) : new ViewGameDetailVertical(context);
+                        ViewGameSnapshot v = new ViewGameSnapshot(context);
+                        if (i >= 3) {
+                            v.setRankBackgroundColor(ViewTriangleShape.COLOR_NORMAL); // light blue
+                        }
+                        v.setGameDetail(gameDetail);
+                        v.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                DetailActivity.launch(getActivity(), gameDetail, Transition.PUSH_RIGHT_TO_LEFT);
+                            }
+                        });
+                        viewList.add(v);
+                        ++i;
+                    }
+                    return viewList;
+                });
 
     }
 

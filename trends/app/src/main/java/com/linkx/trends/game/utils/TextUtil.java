@@ -43,4 +43,13 @@ public class TextUtil {
         }
     }
 
+    public static float asFloat(String text, float defVal) {
+        try {
+            return Float.parseFloat(text);
+        } catch (Exception e) {
+
+        }
+        return defVal;
+    }
+
 }

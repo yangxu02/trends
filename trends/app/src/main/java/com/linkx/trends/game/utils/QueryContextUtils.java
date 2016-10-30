@@ -6,7 +6,7 @@ package com.linkx.trends.game.utils;
 public class QueryContextUtils {
     // TODO
     public static String url(String type) {
-        return "http://ftpsin.ymtech.info:8888/ftptmp/4d404d20-a867-41e7-8084-5ec50cc171fa.us";
+        return "http://http://admin.yeahmagic.com.s3.amazonaws.com/" + type;
     }
 
     public static String appUrl(String id) {

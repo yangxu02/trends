@@ -3,6 +3,7 @@ package com.linkx.trends.game.activities;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -20,8 +21,8 @@ public class MainActivity extends BaseActivity {
 
     @Bind(R.id.drawer_layout)
     DrawerLayout drawerLayout;
-    @Bind(R.id.navigation_view)
-    NavigationView navigationView;
+    //    @Bind(R.id.navigation_view)
+//    NavigationView navigationView;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.toolbar_title)
@@ -30,6 +31,8 @@ public class MainActivity extends BaseActivity {
     TabLayout tabLayout;
     @Bind(R.id.pager)
     ViewPager viewPager;
+    @Bind(R.id.pager_title_strip)
+    PagerTitleStrip pagerTitleStrip;
 
 
     @Override
@@ -83,28 +86,29 @@ public class MainActivity extends BaseActivity {
         });
         */
 
-        for (Consts.Tab tab : Consts.tabs) {
-            tabLayout.addTab(tabLayout.newTab().setText(tab.name));
-        }
+//        for (Consts.Tab tab : Consts.tabs) {
+//            tabLayout.addTab(tabLayout.newTab().setText(tab.name));
+//        }
 
-        final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), Consts.tabs.length);
         viewPager.setAdapter(adapter);
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
+//
+//        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+//            @Override
+//            public void onTabSelected(TabLayout.Tab tab) {
+//                viewPager.setCurrentItem(tab.getPosition());
+//            }
+//
+//            @Override
+//            public void onTabUnselected(TabLayout.Tab tab) {
+//
+//            }
+//
+//            @Override
+//            public void onTabReselected(TabLayout.Tab tab) {
+//
+//            }
+//        });
     }
 
 }

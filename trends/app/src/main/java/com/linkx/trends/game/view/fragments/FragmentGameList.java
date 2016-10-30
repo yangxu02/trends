@@ -8,6 +8,8 @@ import android.os.HandlerThread;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,10 +23,9 @@ import com.linkx.trends.game.data.models.GameDetailList;
 import com.linkx.trends.game.data.models.Orientation;
 import com.linkx.trends.game.data.services.GameListQueryService;
 import com.linkx.trends.game.view.Transition;
-import com.linkx.trends.game.view.components.ViewGameDetail;
-import com.linkx.trends.game.view.components.ViewGameDetailVertical;
-import com.linkx.trends.game.view.components.ViewGameSnapshot;
-import com.linkx.trends.game.view.components.ViewTriangleShape;
+import com.linkx.trends.game.view.adapters.GameSnapshotListAdapter;
+import com.linkx.trends.game.view.components.*;
+import rx.Subscriber;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,14 @@ import static android.os.Process.THREAD_PRIORITY_BACKGROUND;
 public class FragmentGameList extends Fragment {
 
     private static String KEY_FRAGMENT_CONTENT_TYPE = "_kfct";
+    @Bind(R.id.scroll)
+    RecyclerView gameSnapshotList;
+
+    //    @Bind(R.id.game_list)
+//    ViewGroup gameList;
+    String type;
+    private GameSnapshotListAdapter gameSnapshotListAdapter;
+    private Looper backgroundLooper;
 
     public static FragmentGameList newInstance(String type) {
         FragmentGameList fragment = new FragmentGameList();
@@ -45,14 +54,7 @@ public class FragmentGameList extends Fragment {
         return fragment;
     }
 
-    @Bind(R.id.game_list)
-    ViewGroup gameList;
-
-    String type;
-    private Looper backgroundLooper;
-
     @Override
-
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         type = getArguments().getString(KEY_FRAGMENT_CONTENT_TYPE);
@@ -83,6 +85,32 @@ public class FragmentGameList extends Fragment {
     private void setupContainers() {
         Context context = getActivity();
         GameListQueryService service = new GameListQueryService();
+        gameSnapshotList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        gameSnapshotList.setHasFixedSize(false);
+        gameSnapshotListAdapter = new GameSnapshotListAdapter();
+        gameSnapshotList.addItemDecoration(new DividerItemDecoration(getActivity()));
+        service.queryFromUI(type, GameDetailList.class, backgroundLooper, new Subscriber<List<GameDetailList>>() {
+            @Override
+            public void onCompleted() {
+                Log.d("Trends", "onCompleted");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.d("Trends", "onError");
+            }
+
+            @Override
+            public void onNext(List<GameDetailList> gameDetailLists) {
+                for (GameDetailList item : gameDetailLists) {
+                    gameSnapshotListAdapter.add(item.details());
+                    Log.d("Trends", "onNext:data=" + item.toJson());
+                }
+                gameSnapshotList.setAdapter(gameSnapshotListAdapter);
+            }
+        });
+
+        /*
         gameList.removeAllViews();
         service.queryAndDisplay(type, GameDetailList.class, backgroundLooper,
                 gameList, gameDetailList -> {
@@ -90,6 +118,7 @@ public class FragmentGameList extends Fragment {
                     int i = 0;
                     for (GameDetail gameDetail : gameDetailList.details()) {
 //                ViewGameDetail v = Orientation.landscape.equals(gameDetail.clip_orientation()) ? new ViewGameDetail(context) : new ViewGameDetailVertical(context);
+                        if (i >= 10) break;
                         ViewGameSnapshot v = new ViewGameSnapshot(context);
                         if (i >= 3) {
                             v.setRankBackgroundColor(ViewTriangleShape.COLOR_NORMAL); // light blue
@@ -106,6 +135,8 @@ public class FragmentGameList extends Fragment {
                     }
                     return viewList;
                 });
+                */
+
 
     }
 

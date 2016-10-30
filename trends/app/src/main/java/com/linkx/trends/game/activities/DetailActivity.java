@@ -12,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
@@ -19,11 +20,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import com.google.common.base.Strings;
 import com.linkx.trends.R;
 import com.linkx.trends.game.Consts;
 import com.linkx.trends.game.data.models.GameDetail;
 import com.linkx.trends.game.data.models.Orientation;
 import com.linkx.trends.game.utils.QueryContextUtils;
+import com.linkx.trends.game.utils.SysUtils;
 import com.linkx.trends.game.view.Transition;
 import com.linkx.trends.game.view.adapters.PagerAdapter;
 import com.linkx.trends.game.view.components.ViewGameDetail;
@@ -32,10 +35,11 @@ import com.linkx.trends.game.view.components.ViewGameDetailVertical;
 
 public class DetailActivity extends BaseActivity {
 
+    private final static String SER_EXTRA_KEY_DETAIL = "SER_DETAIL";
     @Bind(R.id.drawer_layout)
     DrawerLayout drawerLayout;
-    @Bind(R.id.navigation_view)
-    NavigationView navigationView;
+    //    @Bind(R.id.navigation_view)
+//    NavigationView navigationView;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.toolbar_title)
@@ -44,10 +48,7 @@ public class DetailActivity extends BaseActivity {
     ViewGroup detailRootView;
     @Bind(R.id.progress_bar)
     ProgressBar progressBar;
-
     private GameDetail gameDetail;
-    private final static String SER_EXTRA_KEY_DETAIL = "SER_DETAIL";
-
 
     public static void launch(Activity activity, GameDetail gameDetail, Transition transition) {
         Intent intent = new Intent(activity, DetailActivity.class);
@@ -60,6 +61,7 @@ public class DetailActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        getWindow().requestFeature(Window.FEATURE_PROGRESS);
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
 
@@ -103,7 +105,12 @@ public class DetailActivity extends BaseActivity {
 //        detailView.getSettings().setJavaScriptEnabled(true);
         detailRootView.removeAllViews();
         detailRootView.addView(detailView);
-        detailView.loadUrl(QueryContextUtils.appUrl(gameDetail.id()));
+//        if (!Strings.isNullOrEmpty(gameDetail.gp_link()) && SysUtils.hasGooglePlayInstalled(getApplicationContext())) {
+//            detailView.loadUrl(gameDetail.gp_link());
+//        } else {
+//            detailView.loadUrl(gameDetail.taptap_link());
+//        }
+        detailView.loadUrl(gameDetail.taptap_link());
     }
 
 }

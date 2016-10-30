@@ -7,18 +7,26 @@
               android:layout_marginTop="@dimen/spacing_small"
     >
 
-  <android.support.v4.widget.NestedScrollView
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      app:layout_behavior="@string/appbar_scrolling_view_behavior">
+  <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+                                          android:id="@+id/scroll"
+                                          android:layout_width="match_parent"
+                                          android:layout_height="match_parent"
+                                          android:clipToPadding="false"
+                                          android:paddingBottom="@dimen/spacing_medium"
+                                          android:scrollbars="none"/>
 
-    <LinearLayout
-        android:id="@+id/game_list"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </LinearLayout>
-  </android.support.v4.widget.NestedScrollView>
+  <!--<android.support.v4.widget.NestedScrollView-->
+  <!--android:layout_width="match_parent"-->
+  <!--android:layout_height="match_parent"-->
+  <!--app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
+  <!---->
+  <!--<LinearLayout-->
+  <!--android:id="@+id/game_list"-->
+  <!--android:orientation="vertical"-->
+  <!--android:layout_width="match_parent"-->
+  <!--android:layout_height="wrap_content">-->
+  <!--</LinearLayout>-->
+  <!--</android.support.v4.widget.NestedScrollView>-->
 
 </LinearLayout>
 

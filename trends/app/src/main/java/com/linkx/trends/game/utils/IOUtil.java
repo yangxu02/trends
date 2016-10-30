@@ -108,9 +108,11 @@ public class IOUtil {
         while (i < retries) {
             try {
                 Response response = client.newCall(request).execute();
-                String content = response.body().string();
-                Log.d("Trends", StringEscapeUtils.unescapeJava(content));
-                return content;
+                if (response.code() == 200) {
+                    String content = response.body().string();
+                    Log.d("Trends", StringEscapeUtils.unescapeJava(content));
+                    return content;
+                }
             } catch (Exception e) {
                 Log.w("Trends", e);
             }

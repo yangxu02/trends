@@ -23,7 +23,7 @@ class HTMLImgSrcParser(HTMLParser):
 
 class Game:
     def __init__(self):
-        # self.id = 0
+        self.id = ''
         self.taptap_id = ''
         self.taptap_link = ''
         self.title = ''
@@ -38,8 +38,9 @@ class Game:
         self.price = ''
 
     def __repr__(self):
-        return '<Game taptap_id=%s title=%s developer=%s icon=%s img=%s category=%s rating=%s rank=%s desc=%s>' % \
-               (self.taptap_id, self.title, self.developer, self.icon, self.img, self.category, self.rating, self.rank, self.description)
+        #        return '<Game taptap_id=%s title=%s developer=%s icon=%s img=%s category=%s rating=%s rank=%s desc=%s>' % \
+        #               (self.taptap_id, self.title, self.developer, self.icon, self.img, self.category, self.rating, self.rank, self.description)
+        return json.dumps(self, default=lambda o: o.__dict__)
 
 
 def getBlock(candidates, attrs):
@@ -96,6 +97,7 @@ def getGameDetail(top_card):
     card_left_image = getBlock(card_left.all('a'), {'class': 'card-left-image'})
     game.taptap_link = card_left_image.attrs['href']
     game.taptap_id = getLastComponent(card_left_image.attrs['href'], '/')
+    game.id = game.taptap_id
     game.icon = getImgTagSrc(card_left_image.content)
 
     card_middle = getBlock(top_card.all('div'), {'class': 'top-card-middle'})
@@ -162,11 +164,9 @@ for region in regions:
     #     game_list.append(game)
     game_list = [getGameDetail(top_card) for top_card in top_list]
     games[region] = game_list
-    # game_list = [getGameBundle(game) for game in game_list]
+    game_list = [getGameBundle(game) for game in game_list]
+    with open(region, 'w') as fp:
+        fp.write('{"id":"%s","details":%s}' % (region, repr(game_list)))
 
-print repr(games)
-print json.dumps(games)
-
-
-
-
+# print repr(games)
+# print json.dumps(games)

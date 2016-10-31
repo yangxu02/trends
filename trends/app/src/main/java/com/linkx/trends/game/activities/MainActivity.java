@@ -1,21 +1,17 @@
 package com.linkx.trends.game.activities;
 
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.linkx.trends.R;
 import com.linkx.trends.game.Consts;
 import com.linkx.trends.game.view.adapters.PagerAdapter;
-import com.linkx.trends.game.view.components.DrawerHeaderView;
 
 public class MainActivity extends BaseActivity {
 
@@ -50,7 +46,8 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setupActionBar() {
-        toolbarTitle.setText("大家都在玩");
+//        toolbarTitle.setText("大家都在玩");
+        toolbarTitle.setText("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowHomeEnabled(true);

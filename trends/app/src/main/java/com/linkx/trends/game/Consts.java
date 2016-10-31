@@ -5,12 +5,12 @@ package com.linkx.trends.game;
  */
 public final class Consts {
     public static final Tab[] tabs = new Tab[]{
-            new Tab("下载榜", "download"),
-            new Tab("美国榜", "us"),
-            new Tab("香港榜", "hk"),
-            new Tab("台湾榜", "tw"),
-            new Tab("日本榜", "jp"),
-            new Tab("韩国榜", "kr"),
+        new Tab("下载榜", "download"),
+        new Tab("美国榜", "us"),
+        new Tab("香港榜", "hk"),
+        new Tab("台湾榜", "tw"),
+        new Tab("日本榜", "jp"),
+        new Tab("韩国榜", "kr"),
     };
 
     public final static class Tab {

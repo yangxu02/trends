@@ -1,27 +1,17 @@
 package com.linkx.trends.game.view.adapters;
 
 import android.app.Activity;
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.linkx.trends.R;
 import com.linkx.trends.game.activities.DetailActivity;
 import com.linkx.trends.game.data.models.GameDetail;
+import com.linkx.trends.game.utils.SysUtils;
 import com.linkx.trends.game.view.Transition;
 import com.linkx.trends.game.view.components.ViewGameSnapshot;
 import com.linkx.trends.game.view.components.ViewTriangleShape;
-import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 
 public class GameSnapshotListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<GameDetail> details = new ArrayList<>();
@@ -35,6 +25,10 @@ public class GameSnapshotListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     public void add(List<GameDetail> details) {
         this.details.addAll(details);
+    }
+
+    public void add(GameDetail detail) {
+        this.details.add(detail);
     }
 
     @Override
@@ -74,7 +68,12 @@ public class GameSnapshotListAdapter extends RecyclerView.Adapter<RecyclerView.V
             snapshot.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    DetailActivity.launch((Activity) v.getContext(), detail, Transition.PUSH_RIGHT_TO_LEFT);
+                    Activity activity = (Activity) v.getContext();
+                    try {
+                        SysUtils.openWithMarket(activity, detail.bundle());
+                    } catch (Exception e) {
+                        DetailActivity.launch((Activity) v.getContext(), detail, Transition.PUSH_RIGHT_TO_LEFT);
+                    }
                 }
             });
         }

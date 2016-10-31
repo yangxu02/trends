@@ -9,7 +9,7 @@ android {
 
   defaultConfig {
     applicationId "com.linkx.trends.game"
-    minSdkVersion 10
+    minSdkVersion 14
     targetSdkVersion 22
     versionCode 1
     versionName "1.0"
@@ -20,20 +20,20 @@ android {
     targetCompatibility JavaVersion.VERSION_1_8
   }
 
-  //signingConfigs {
-  //  release {
-  //    storeFile file("E:\\\\source_code\\android\\linkx.jks")
-  //    storePassword "linkxy"
-  //    keyAlias "linkx"
-  //    keyPassword "linkxy"
-  //  }
-  //}
+  signingConfigs {
+    release {
+      storeFile file("../linkx.jks")
+      storePassword "linkxy"
+      keyAlias "linkx"
+      keyPassword "linkxy"
+    }
+  }
 
   buildTypes {
     release {
       minifyEnabled false
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-      //signingConfig signingConfigs.release
+      signingConfig signingConfigs.release
     }
   }
 
@@ -78,6 +78,7 @@ dependencies {
   compile 'io.reactivex:rxjava:1.1.6'
 
   compile 'com.github.lecho:hellocharts-library:1.5.8@aar'
+  compile 'com.github.lzyzsd:circleprogress:1.1.0'
 
   //  compile 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
   //  compile 'com.ogaclejapan.smarttablayout:utils-v4:1.6.1@aar'

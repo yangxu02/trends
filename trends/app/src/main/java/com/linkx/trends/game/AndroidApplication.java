@@ -21,18 +21,18 @@ public class AndroidApplication extends Application {
 
     public void initializeInjector() {
         this.applicationComponent = DaggerApplicationComponent.builder()
-                .applicationModule(new ApplicationModule(this))
-                .build();
+            .applicationModule(new ApplicationModule(this))
+            .build();
     }
 
     private void initializeStetho() {
         Stetho.initialize(
-                Stetho.newInitializerBuilder(this)
-                        .enableDumpapp(
-                                Stetho.defaultDumperPluginsProvider(this))
-                        .enableWebKitInspector(
-                                Stetho.defaultInspectorModulesProvider(this))
-                        .build());
+            Stetho.newInitializerBuilder(this)
+                .enableDumpapp(
+                    Stetho.defaultDumperPluginsProvider(this))
+                .enableWebKitInspector(
+                    Stetho.defaultInspectorModulesProvider(this))
+                .build());
     }
 
     public ApplicationComponent getApplicationComponent() {

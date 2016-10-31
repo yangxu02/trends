@@ -19,16 +19,16 @@ public class BaseService {
 
     protected <T> Observable<T> makeObservable(final Callable<T> func) {
         return Observable.create(
-                new Observable.OnSubscribe<T>() {
-                    @Override
-                    public void call(Subscriber<? super T> subscriber) {
-                        try {
-                            subscriber.onNext(func.call());
-                        } catch (Exception ex) {
-                            Log.e("POKE", "Error loading from the database", ex);
-                        }
+            new Observable.OnSubscribe<T>() {
+                @Override
+                public void call(Subscriber<? super T> subscriber) {
+                    try {
+                        subscriber.onNext(func.call());
+                    } catch (Exception ex) {
+                        Log.e("POKE", "Error loading from the database", ex);
                     }
-                });
+                }
+            });
     }
 
 }

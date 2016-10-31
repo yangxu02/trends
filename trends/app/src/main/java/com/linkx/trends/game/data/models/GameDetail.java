@@ -22,15 +22,15 @@ public abstract class GameDetail extends Model {
                                     @JsonProperty("rating") String rating,
                                     @JsonProperty("img") String clip,
 //                                    @JsonProperty("img_orientation") Orientation clip_orientation,
-                                    @JsonProperty("bundle") String gp_link,
+                                    @JsonProperty("bundle") String bundle,
                                     @JsonProperty("taptap_link") String taptap_link
 
     ) {
         return new AutoValue_GameDetail(id, rank, icon,
-                StringEscapeUtils.unescapeJava(title),
-                StringEscapeUtils.unescapeJava(desc),
-                StringEscapeUtils.unescapeJava(category),
-                rating, clip, gp_link, taptap_link);
+            StringEscapeUtils.unescapeJava(title),
+            StringEscapeUtils.unescapeJava(desc),
+            StringEscapeUtils.unescapeJava(category),
+            rating, clip, bundle, taptap_link);
     }
 
     @JsonProperty("taptap_id")
@@ -60,7 +60,7 @@ public abstract class GameDetail extends Model {
     //    @JsonProperty("img_orientation")
 //    public abstract Orientation clip_orientation();
     @JsonProperty("bundle")
-    public abstract String gp_link();
+    public abstract String bundle();
 
     @JsonProperty("taptap_link")
     public abstract String taptap_link();

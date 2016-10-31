@@ -1,9 +1,7 @@
 package com.linkx.trends.game.view.fragments;
 
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.support.annotation.Nullable;
@@ -16,19 +14,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import com.github.lzyzsd.circleprogress.CircleProgress;
+import com.google.common.base.Strings;
 import com.linkx.trends.R;
-import com.linkx.trends.game.activities.DetailActivity;
 import com.linkx.trends.game.data.models.GameDetail;
 import com.linkx.trends.game.data.models.GameDetailList;
-import com.linkx.trends.game.data.models.Orientation;
 import com.linkx.trends.game.data.services.GameListQueryService;
-import com.linkx.trends.game.view.Transition;
 import com.linkx.trends.game.view.adapters.GameSnapshotListAdapter;
-import com.linkx.trends.game.view.components.*;
-import rx.Subscriber;
-
-import java.util.ArrayList;
+import com.linkx.trends.game.view.components.DividerItemDecoration;
 import java.util.List;
+import rx.Subscriber;
 
 import static android.os.Process.THREAD_PRIORITY_BACKGROUND;
 
@@ -37,18 +32,21 @@ public class FragmentGameList extends Fragment {
     private static String KEY_FRAGMENT_CONTENT_TYPE = "_kfct";
     @Bind(R.id.scroll)
     RecyclerView gameSnapshotList;
+    @Bind(R.id.circle_progress)
+    CircleProgress circleProgress;
 
     //    @Bind(R.id.game_list)
 //    ViewGroup gameList;
     String type;
     private GameSnapshotListAdapter gameSnapshotListAdapter;
     private Looper backgroundLooper;
+    private Handler handler = new Handler(Looper.getMainLooper());
 
     public static FragmentGameList newInstance(String type) {
         FragmentGameList fragment = new FragmentGameList();
         Bundle stats = new Bundle();
         stats.putString(KEY_FRAGMENT_CONTENT_TYPE, type);
-        Log.w("Trends", "key=" + KEY_FRAGMENT_CONTENT_TYPE + ",type=" + type);
+        Log.d("Trends", "key=" + KEY_FRAGMENT_CONTENT_TYPE + ",type=" + type);
         // pass
         fragment.setArguments(stats);
         return fragment;
@@ -58,7 +56,7 @@ public class FragmentGameList extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         type = getArguments().getString(KEY_FRAGMENT_CONTENT_TYPE);
-        Log.w("Trends", "key=" + KEY_FRAGMENT_CONTENT_TYPE + ",type=" + type);
+        Log.d("Trends", "key=" + KEY_FRAGMENT_CONTENT_TYPE + ",type=" + type);
     }
 
     @Override
@@ -83,8 +81,20 @@ public class FragmentGameList extends Fragment {
     }
 
     private void setupContainers() {
-        Context context = getActivity();
-        GameListQueryService service = new GameListQueryService();
+
+        handler.postDelayed(new Runnable() {
+            int progress = 20;
+
+            @Override
+            public void run() {
+                if (progress >= 80) return;
+                progress += 20;
+                circleProgress.setProgress(progress);
+                handler.postDelayed(this, 150);
+            }
+        }, 150);
+
+        GameListQueryService service = new GameListQueryService(getActivity().getApplication());
         gameSnapshotList.setLayoutManager(new LinearLayoutManager(getActivity()));
         gameSnapshotList.setHasFixedSize(false);
         gameSnapshotListAdapter = new GameSnapshotListAdapter();
@@ -93,6 +103,8 @@ public class FragmentGameList extends Fragment {
             @Override
             public void onCompleted() {
                 Log.d("Trends", "onCompleted");
+                circleProgress.setVisibility(View.GONE);
+                gameSnapshotList.setAdapter(gameSnapshotListAdapter);
             }
 
             @Override
@@ -103,10 +115,12 @@ public class FragmentGameList extends Fragment {
             @Override
             public void onNext(List<GameDetailList> gameDetailLists) {
                 for (GameDetailList item : gameDetailLists) {
-                    gameSnapshotListAdapter.add(item.details());
+                    for (GameDetail detail : item.details()) {
+                        if (Strings.isNullOrEmpty(detail.bundle())) continue;
+                        gameSnapshotListAdapter.add(detail);
+                    }
                     Log.d("Trends", "onNext:data=" + item.toJson());
                 }
-                gameSnapshotList.setAdapter(gameSnapshotListAdapter);
             }
         });
 

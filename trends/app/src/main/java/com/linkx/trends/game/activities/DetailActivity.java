@@ -5,32 +5,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.google.common.base.Strings;
 import com.linkx.trends.R;
-import com.linkx.trends.game.Consts;
 import com.linkx.trends.game.data.models.GameDetail;
-import com.linkx.trends.game.data.models.Orientation;
-import com.linkx.trends.game.utils.QueryContextUtils;
 import com.linkx.trends.game.utils.SysUtils;
 import com.linkx.trends.game.view.Transition;
-import com.linkx.trends.game.view.adapters.PagerAdapter;
-import com.linkx.trends.game.view.components.ViewGameDetail;
-import com.linkx.trends.game.view.components.ViewGameDetailVertical;
 
 
 public class DetailActivity extends BaseActivity {
@@ -48,6 +38,7 @@ public class DetailActivity extends BaseActivity {
     ViewGroup detailRootView;
     @Bind(R.id.progress_bar)
     ProgressBar progressBar;
+
     private GameDetail gameDetail;
 
     public static void launch(Activity activity, GameDetail gameDetail, Transition transition) {
@@ -102,15 +93,15 @@ public class DetailActivity extends BaseActivity {
 
         WebView detailView = new WebView(this);
         detailView.setWebViewClient(new WebViewClientWithProgress(progressBar));
-//        detailView.getSettings().setJavaScriptEnabled(true);
+        detailView.getSettings().setJavaScriptEnabled(true);
         detailRootView.removeAllViews();
         detailRootView.addView(detailView);
-//        if (!Strings.isNullOrEmpty(gameDetail.gp_link()) && SysUtils.hasGooglePlayInstalled(getApplicationContext())) {
-//            detailView.loadUrl(gameDetail.gp_link());
-//        } else {
-//            detailView.loadUrl(gameDetail.taptap_link());
-//        }
-        detailView.loadUrl(gameDetail.taptap_link());
+        if (!Strings.isNullOrEmpty(gameDetail.bundle())) {
+            detailView.loadUrl(SysUtils.bundleToPlayStoreLink(gameDetail.bundle()));
+        } else {
+            detailView.loadUrl(gameDetail.taptap_link());
+        }
+//        detailView.loadUrl(gameDetail.taptap_link());
     }
 
 }
@@ -126,6 +117,7 @@ class WebViewClientWithProgress extends WebViewClient {
         final Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable() {
             int progress = 10;
+
             @Override
             public void run() {
                 if (progress > 90) return;
@@ -136,6 +128,7 @@ class WebViewClientWithProgress extends WebViewClient {
         }, 100);
 
     }
+
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
         view.loadUrl(url);

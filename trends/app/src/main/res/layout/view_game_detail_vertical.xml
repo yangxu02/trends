@@ -7,13 +7,13 @@
     android:layout_marginBottom="@dimen/spacing_medium"
     android:layout_marginStart="@dimen/spacing_medium"
     android:layout_marginEnd="@dimen/spacing_medium"
-    >
+>
 
   <LinearLayout
       android:orientation="horizontal"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      >
+  >
 
     <ImageView
         android:id="@+id/icon"
@@ -22,27 +22,27 @@
         android:layout_height="wrap_content"
         android:scaleType="centerInside"
         android:src="@drawable/baby_clip"
-        />
+    />
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="0dp"
         android:layout_weight="0.7"
         android:layout_height="wrap_content"
-        >
+    >
       <TextView
           android:id="@+id/title"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:text="标题"
-          />
+      />
 
       <TextView
           android:id="@+id/category"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:text="分类"
-          />
+      />
 
       <LinearLayout
           android:orientation="horizontal"
@@ -54,31 +54,31 @@
             android:layout_height="wrap_content"
             android:text="9.5"
             android:layout_marginEnd="@dimen/spacing_medium"
-            />
+        />
         <com.linkx.trends.game.view.components.ViewStarList
             android:id="@+id/rating_star"
             android:layout_gravity="center_vertical"
             android:layout_width="80dp"
             android:layout_height="16dp"
-            />
+        />
       </LinearLayout>
     </LinearLayout>
   </LinearLayout>
 
-    <TextView
-        android:id="@+id/desc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_medium"
-        android:text="描述"
-        />
+  <TextView
+      android:id="@+id/desc"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="@dimen/spacing_medium"
+      android:text="描述"
+  />
 
-    <ImageView
-        android:id="@+id/clip"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="centerInside"
-        android:src="@drawable/baby_clip"
-        />
+  <ImageView
+      android:id="@+id/clip"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:scaleType="centerInside"
+      android:src="@drawable/baby_clip"
+  />
 </LinearLayout>
 

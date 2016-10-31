@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:checkableBehavior="none">
-        <item android:title=""/>
-    </group>
+  <group android:checkableBehavior="none">
+    <item android:title=""/>
+  </group>
 
-    <group android:id="@+id/group1" android:checkableBehavior="single">
-        <item
-            android:id="@+id/navigation_home"
-            android:title="@string/home" />
-        <item
-            android:id="@+id/navigation_my_recipes"
-            android:title="@string/my_recipes" />
-        <item
-            android:id="@+id/navigation_bookmarks"
-            android:title="@string/bookmarks" />
-        <item
-            android:id="@+id/navigation_people"
-            android:title="@string/people" />
-    </group>
+  <group android:id="@+id/group1" android:checkableBehavior="single">
+    <item
+        android:id="@+id/navigation_home"
+        android:title="@string/home"/>
+    <item
+        android:id="@+id/navigation_my_recipes"
+        android:title="@string/my_recipes"/>
+    <item
+        android:id="@+id/navigation_bookmarks"
+        android:title="@string/bookmarks"/>
+    <item
+        android:id="@+id/navigation_people"
+        android:title="@string/people"/>
+  </group>
 
-    <item android:title="@string/others">
-        <menu>
-            <item android:title="@string/settings" />
-            <item android:title="@string/help_and_feedback" />
-        </menu>
-    </item>
+  <item android:title="@string/others">
+    <menu>
+      <item android:title="@string/settings"/>
+      <item android:title="@string/help_and_feedback"/>
+    </menu>
+  </item>
 </menu>

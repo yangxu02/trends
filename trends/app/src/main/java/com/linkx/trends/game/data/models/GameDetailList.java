@@ -12,21 +12,22 @@ import java.util.List;
 @AutoValue
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class GameDetailList extends Model {
+    @JsonCreator
+    public static GameDetailList create(@JsonProperty("id") String id,
+                                        @JsonProperty("details") List<GameDetail> details
+    ) {
+        return new AutoValue_GameDetailList(id, details);
+    }
+
     @JsonProperty("id")
     public abstract String id();
+
     @JsonProperty("details")
     public abstract List<GameDetail> details();
 
     @Override
     public String identity() throws MethodNotOverrideException {
         return id();
-    }
-
-    @JsonCreator
-    public static GameDetailList create(@JsonProperty("id") String id,
-                                        @JsonProperty("details") List<GameDetail> details
-                                        ) {
-        return new AutoValue_GameDetailList(id, details);
     }
 
 }

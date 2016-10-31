@@ -1,10 +1,7 @@
 package com.linkx.trends.game.view.components;
 
-import android.view.View;
-
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
@@ -43,9 +40,9 @@ public class ViewTriangleShape extends View {
 
         path.reset();
         path.moveTo(0, 0);
-        path.lineTo(w , 0);
-        path.lineTo(0 , w);
-        path.lineTo(0 , 0);
+        path.lineTo(w, 0);
+        path.lineTo(0, w);
+        path.lineTo(0, 0);
         path.close();
 
         p.setColor(color);

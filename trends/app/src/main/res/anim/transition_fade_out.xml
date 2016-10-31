@@ -3,4 +3,4 @@
     android:fromAlpha="1"
     android:interpolator="@android:anim/accelerate_interpolator"
     android:toAlpha="0"
-    />
+/>

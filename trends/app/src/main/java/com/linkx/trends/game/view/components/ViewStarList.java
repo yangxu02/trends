@@ -2,14 +2,11 @@ package com.linkx.trends.game.view.components;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.linkx.trends.R;
-import com.linkx.trends.game.data.models.GameDetail;
-import com.squareup.picasso.Picasso;
 
 public class ViewStarList extends FrameLayout {
 
@@ -42,8 +39,8 @@ public class ViewStarList extends FrameLayout {
         Context context = getContext();
         int width = this.getLayoutParams().width;
         int height = this.getLayoutParams().height;
-        int starWidth = (int)(0.9 * height);
-        int starHeight = (int)(0.9 * height);
+        int starWidth = (int) (0.9 * height);
+        int starHeight = (int) (0.9 * height);
         int scale = base / count;
         float weightScaled = weight / scale;
         starList.removeAllViews();
@@ -60,10 +57,10 @@ public class ViewStarList extends FrameLayout {
             }
             starList.addView(starShape.setFillStyle(fillStyle));
             weightScaled -= 1;
-            Log.d("Trends", "i=" + i + ",width=" + width + ",height=" + height
-                    + ",starWidth=" + starWidth + ",starHeight=" + starHeight + ",fill=" + fillStyle
-                    + ",weight=" + weight + ",scaledWeight=" + weightScaled
-            );
+//            Log.d("Trends", "i=" + i + ",width=" + width + ",height=" + height
+//                    + ",starWidth=" + starWidth + ",starHeight=" + starHeight + ",fill=" + fillStyle
+//                    + ",weight=" + weight + ",scaledWeight=" + weightScaled
+//            );
         }
         return this;
     }

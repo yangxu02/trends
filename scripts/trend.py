@@ -5,6 +5,7 @@ reload(sys)
 sys.setdefaultencoding('utf8')
 
 from lib import scrape
+import urlparse
 import inspect
 import os
 import pickle
@@ -38,9 +39,9 @@ class Game:
         self.price = ''
 
     def __repr__(self):
-        #        return '<Game taptap_id=%s title=%s developer=%s icon=%s img=%s category=%s rating=%s rank=%s desc=%s>' % \
-        #               (self.taptap_id, self.title, self.developer, self.icon, self.img, self.category, self.rating, self.rank, self.description)
-        return json.dumps(self, default=lambda o: o.__dict__)
+#        return '<Game taptap_id=%s title=%s developer=%s icon=%s img=%s category=%s rating=%s rank=%s desc=%s>' % \
+#               (self.taptap_id, self.title, self.developer, self.icon, self.img, self.category, self.rating, self.rank, self.description)
+	return json.dumps(self, default=lambda o: o.__dict__)
 
 
 def getBlock(candidates, attrs):
@@ -134,11 +135,17 @@ def getGameBundle(game):
         candidates = html.all('a')
         for a in candidates:
             if 'href' in a.attrs and 'https://play.google.com/store/apps/details' in a.attrs['href']:
-                game.bundle = a.attrs['href']
+		gp_link = a.attrs['href']
+		print game.id + ' => ' + gp_link
+		query_dict = urlparse.parse_qs(urlparse.urlsplit(gp_link).query)
+		#print query_dict
+                game.bundle = query_dict['id'][0]
+		#print game.bundle
                 game.price = a.text.encode('utf8')
                 break
-    except Exception:
-        pass
+    except Exception as e:
+	raise e
+        #pass
     return game
 
 # data = ''
@@ -146,10 +153,15 @@ def getGameBundle(game):
 #     data = fp.read(1024*1024)
 
 regions = ['us', 'download', 'jp', 'kr', 'tw', 'hk']
+#regions = ['us']
 #  download https://www.taptap.com/top/us?type=0
 #  new https://www.taptap.com/top/us?type=1
 
-games = {}
+bundles = {}
+if os.path.exists('bundles'):
+    with open('bundles', 'r') as fp:
+	bundles = json.load(fp)
+
 for region in regions:
     link = ('https://www.taptap.com/top/' + region)
     print 'start to get list from link %s' % link
@@ -163,10 +175,25 @@ for region in regions:
     #     print repr(game)
     #     game_list.append(game)
     game_list = [getGameDetail(top_card) for top_card in top_list]
-    games[region] = game_list
-    game_list = [getGameBundle(game) for game in game_list]
+    for game in game_list:
+	if game.id in bundles:
+	    game.bundle = bundles[game.id]['bundle']
+	    game.price = bundles[game.id]['price']
+	    continue
+	getGameBundle(game)
+	if not game.bundle == '':
+	    bundles[game.id] = {'bundle':game.bundle,'price':game.price}
+	#break
     with open(region, 'w') as fp:
-        fp.write('{"id":"%s","details":%s}' % (region, repr(game_list)))
+	fp.write('{"id":"%s","details":%s}' % (region, repr(game_list)))
 
-# print repr(games)
-# print json.dumps(games)
+if len(bundles) != 0:
+    with open('bundles', 'w') as fp:
+	json.dump(bundles, fp)
+
+#print repr(games)
+#print json.dumps(games)
+
+
+
+

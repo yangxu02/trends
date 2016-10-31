@@ -7,7 +7,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import com.google.common.base.Strings;
 import com.linkx.trends.R;
 import com.linkx.trends.game.data.models.GameDetail;
 import com.linkx.trends.game.utils.TextUtil;

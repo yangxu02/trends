@@ -1,5 +1,6 @@
 package com.linkx.trends.game.data.services;
 
+import android.content.Context;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
@@ -8,6 +9,7 @@ import com.google.common.base.Charsets;
 import com.google.common.base.Strings;
 import com.google.common.io.Files;
 import com.linkx.trends.game.data.models.Model;
+import com.linkx.trends.game.utils.AssetsUtil;
 import com.linkx.trends.game.utils.IOUtil;
 import com.linkx.trends.game.utils.QueryContextUtils;
 import java.io.File;
@@ -23,8 +25,15 @@ import rx.functions.Func1;
 
 public class GameListQueryService {
 
+    private Context appCtx;
+
+    public GameListQueryService(Context appCtx) {
+        this.appCtx = appCtx;
+    }
+
     /**
      * should update from network when file not exist or file content is one day before
+     *
      * @param tag: file tag
      * @return true if should update
      */
@@ -39,11 +48,14 @@ public class GameListQueryService {
         return (TimeUnit.MILLISECONDS.toDays(now - lastModified) >= 1);
     }
 
-    private  <T extends Model> List<T> asFileSource(String tag, Class<T> clazz) throws IOException, Model.MethodNotOverrideException {
+    private <T extends Model> List<T> asFileSource(String tag, Class<T> clazz) throws IOException, Model.MethodNotOverrideException {
         String fileName = IOUtil.gameDataFileName(tag);
         String content = "";
         if (shouldLoadFromNetwork(tag)) {
             content = IOUtil.readFromNetworkAndCache(QueryContextUtils.url(tag), fileName);
+            if (Strings.isNullOrEmpty(content)) {
+                content = AssetsUtil.getContent(appCtx, tag);
+            }
         } else {
             content = Files.toString(new File(fileName), Charsets.UTF_8);
         }
@@ -55,8 +67,7 @@ public class GameListQueryService {
 
     public <T extends Model> Observable<List<T>> baseDetailObservable(String tag, Class<T> clazz) {
         return Observable.defer(() -> {
-            try
-            {
+            try {
                 List<T> dataList = asFileSource(tag, clazz);
                 return Observable.just(dataList);
             } catch (IOException | Model.MethodNotOverrideException e) {
@@ -68,6 +79,7 @@ public class GameListQueryService {
     public <T extends Model> void queryFromUISilently(String tag, Class<T> clazz, Looper looper) {
         Subscriber<List<T>> subscriber = new Subscriber<List<T>>() {
             String tag = clazz.getSimpleName();
+
             @Override
             public void onCompleted() {
                 Log.d(tag, "onCompleted()");
@@ -80,7 +92,7 @@ public class GameListQueryService {
 
             @Override
             public void onNext(List<T> ts) {
-                Log.d(tag, "onNext():data=" + ((Model)ts).toJson());
+                Log.d(tag, "onNext():data=" + ((Model) ts).toJson());
             }
         };
 
@@ -93,34 +105,34 @@ public class GameListQueryService {
 
     private <T extends Model> Observable<List<T>> queryFromUI(String tag, Class<T> clazz, Looper looper) {
         return baseDetailObservable(tag, clazz)
-                .subscribeOn(AndroidSchedulers.from(looper))
-                .observeOn(AndroidSchedulers.mainThread());
+            .subscribeOn(AndroidSchedulers.from(looper))
+            .observeOn(AndroidSchedulers.mainThread());
     }
 
     public <T extends Model> void queryAndDisplay(String tag, Class<T> clazz, Looper looper,
                                                   ViewGroup container, Func1<T, List<View>> func) {
         queryFromUI(tag, clazz, looper,
-                new Subscriber<List<T>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.d("Query", "onCompleted");
-                    }
+            new Subscriber<List<T>>() {
+                @Override
+                public void onCompleted() {
+                    Log.d("Query", "onCompleted");
+                }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("Query", "onError", e);
-                    }
+                @Override
+                public void onError(Throwable e) {
+                    Log.e("Query", "onError", e);
+                }
 
-                    @Override
-                    public void onNext(List<T> items) {
-                        for (T item : items) {
-                            for (View view : func.call(item)) {
-                                container.addView(view);
-                            }
-                            Log.d("Query", "onNext:data=" + item.toJson());
+                @Override
+                public void onNext(List<T> items) {
+                    for (T item : items) {
+                        for (View view : func.call(item)) {
+                            container.addView(view);
                         }
+                        Log.d("Query", "onNext:data=" + item.toJson());
                     }
-                });
+                }
+            });
     }
 
 }

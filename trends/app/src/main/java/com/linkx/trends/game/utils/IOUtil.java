@@ -1,6 +1,5 @@
 package com.linkx.trends.game.utils;
 
-import android.content.Context;
 import android.os.Environment;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -48,9 +47,9 @@ public class IOUtil {
         return dataFileName(tag, dayStr);
     }
 
-     public static String tmpFileName(String tag) {
-         File dir = Environment.getExternalStorageDirectory();
-         return Joiner.on('/').join(dir.getAbsolutePath(), TMP_DIR, tag);
+    public static String tmpFileName(String tag) {
+        File dir = Environment.getExternalStorageDirectory();
+        return Joiner.on('/').join(dir.getAbsolutePath(), TMP_DIR, tag);
     }
 
 
@@ -111,7 +110,9 @@ public class IOUtil {
                 if (response.code() == 200) {
                     String content = response.body().string();
                     Log.d("Trends", StringEscapeUtils.unescapeJava(content));
-                    return content;
+                    if (!content.contains("dnserror")) {
+                        return content;
+                    }
                 }
             } catch (Exception e) {
                 Log.w("Trends", e);

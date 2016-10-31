@@ -2,7 +2,6 @@ package com.linkx.trends.game.view.components;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
@@ -20,18 +19,11 @@ public class ViewStarShape extends View {
 
     private final Path path = new Path();
     private final Paint p = new Paint();
+    int width;
+    int height;
     private int primaryColor = COLOR_HOT;
     private int secondaryColor = COLOR_NORMAL;
     private FillStyle fillStyle = FillStyle.Full;
-
-    int width;
-    int height;
-
-    public enum FillStyle {
-        Full,
-        Half,
-        None
-    }
 
     public ViewStarShape(Context context) {
         super(context);
@@ -99,54 +91,60 @@ public class ViewStarShape extends View {
 
     private Path fullStar() {
         Path path = new Path();
-        float midX = getWidth()/2;
-        float midY = getHeight()/2;
+        float midX = getWidth() / 2;
+        float midY = getHeight() / 2;
         float scale = midX / 300;
         path.moveTo(midX, midY);
-        path.lineTo(midX+190*scale, midY+300*scale);
-        path.lineTo(midX, midY+210*scale);
-        path.lineTo(midX-190*scale, midY+300*scale);
-        path.lineTo(midX-160*scale, midY+90*scale);
-        path.lineTo(midX-300*scale, midY-70*scale);
-        path.lineTo(midX-100*scale ,midY-110*scale);
-        path.lineTo(midX, midY-300*scale);
-        path.lineTo(midX+100*scale, midY-110*scale);
-        path.lineTo(midX+300*scale, midY-70*scale);
-        path.lineTo(midX+160*scale, midY+90*scale);
-        path.lineTo(midX+190*scale, midY+300*scale);
+        path.lineTo(midX + 190 * scale, midY + 300 * scale);
+        path.lineTo(midX, midY + 210 * scale);
+        path.lineTo(midX - 190 * scale, midY + 300 * scale);
+        path.lineTo(midX - 160 * scale, midY + 90 * scale);
+        path.lineTo(midX - 300 * scale, midY - 70 * scale);
+        path.lineTo(midX - 100 * scale, midY - 110 * scale);
+        path.lineTo(midX, midY - 300 * scale);
+        path.lineTo(midX + 100 * scale, midY - 110 * scale);
+        path.lineTo(midX + 300 * scale, midY - 70 * scale);
+        path.lineTo(midX + 160 * scale, midY + 90 * scale);
+        path.lineTo(midX + 190 * scale, midY + 300 * scale);
         return path;
     }
 
     private Path leftHalfStar() {
         Path path = new Path();
-        float midX = getWidth()/2;
-        float midY = getHeight()/2;
+        float midX = getWidth() / 2;
+        float midY = getHeight() / 2;
         float scale = midX / 300;
         path.moveTo(midX, midY);
-        path.lineTo(midX, midY-300*scale);
-        path.lineTo(midX-100*scale ,midY-110*scale);
-        path.lineTo(midX-300*scale ,midY-70*scale);
-        path.lineTo(midX-160*scale, midY+90*scale);
-        path.lineTo(midX-190*scale, midY+300*scale);
-        path.lineTo(midX, midY+210*scale);
+        path.lineTo(midX, midY - 300 * scale);
+        path.lineTo(midX - 100 * scale, midY - 110 * scale);
+        path.lineTo(midX - 300 * scale, midY - 70 * scale);
+        path.lineTo(midX - 160 * scale, midY + 90 * scale);
+        path.lineTo(midX - 190 * scale, midY + 300 * scale);
+        path.lineTo(midX, midY + 210 * scale);
         path.moveTo(midX, midY);
         return path;
     }
 
     private Path rightHalfStar() {
         Path path = new Path();
-        float midX = getWidth()/2;
-        float midY = getHeight()/2;
+        float midX = getWidth() / 2;
+        float midY = getHeight() / 2;
         float scale = midX / 300;
         path.moveTo(midX, midY);
-        path.lineTo(midX, midY-300*scale);
-        path.lineTo(midX+100*scale ,midY-110*scale);
-        path.lineTo(midX+300*scale ,midY-70*scale);
-        path.lineTo(midX+160*scale, midY+90*scale);
-        path.lineTo(midX+190*scale, midY+300*scale);
-        path.lineTo(midX, midY+210*scale);
+        path.lineTo(midX, midY - 300 * scale);
+        path.lineTo(midX + 100 * scale, midY - 110 * scale);
+        path.lineTo(midX + 300 * scale, midY - 70 * scale);
+        path.lineTo(midX + 160 * scale, midY + 90 * scale);
+        path.lineTo(midX + 190 * scale, midY + 300 * scale);
+        path.lineTo(midX, midY + 210 * scale);
         path.moveTo(midX, midY);
         return path;
+    }
+
+    public enum FillStyle {
+        Full,
+        Half,
+        None
     }
 
 }

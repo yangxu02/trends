@@ -15,22 +15,23 @@ public class ViewWithBackgroundThread extends FrameLayout {
 
     protected Looper backgroundLooper;
 
-    public String name() {
-        return "BaseThreadedView";
-    }
-
     public ViewWithBackgroundThread(Context context) {
         super(context);
         setupLooper();
     }
-     public ViewWithBackgroundThread(Context context, AttributeSet attrs) {
+
+    public ViewWithBackgroundThread(Context context, AttributeSet attrs) {
         super(context, attrs);
-         setupLooper();
+        setupLooper();
     }
 
     public ViewWithBackgroundThread(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setupLooper();
+    }
+
+    public String name() {
+        return "BaseThreadedView";
     }
 
     private void setupLooper() {
